@@ -13,7 +13,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
   };
 
   return (
-    <div className="p-4 max-w-5xl mx-auto w-full">
+    <div className="p-4 max-w-5xl mx-auto w-full pr-[10vw]">
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <input
@@ -21,7 +21,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Message..."
-            className="w-full rounded-lg border border-gray-200 px-4 py-3 pr-12 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full rounded-lg border border-gray-200 px-4 py-3 pr-12 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:#051C3F focus:border-transparent"
           />
           <button
             type="submit"

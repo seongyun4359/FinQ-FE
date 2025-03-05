@@ -7,7 +7,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[80%] rounded-lg p-4 ${
-          isUser ? "bg-[#2970ff] text-white" : "bg-gray-100 text-gray-700"
+          isUser ? "bg-[#051C3F] text-white" : "bg-gray-100 text-gray-700"
         }`}
       >
         {message.content}

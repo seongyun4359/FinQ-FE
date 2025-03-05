@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ChatMessage from "../../components/ChatMessage";
 import ChatInput from "../../components/ChatInput";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/layout/Sidebar";
 import { Chat } from "../../types";
 
 function App() {
