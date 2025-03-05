@@ -3,10 +3,7 @@ interface HeaderProps {
   onToggleSidebar: () => void;
 }
 
-export default function Header({
-  isSidebarOpen,
-  onToggleSidebar,
-}: HeaderProps) {
+export default function Header({ onToggleSidebar }: HeaderProps) {
   return (
     <header className="bg-white border-b border-gray-200 p-4 flex items-center gap-4 shrink-0">
       <button

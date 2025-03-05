@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* 스크롤바 스타일링 */
 ::-webkit-scrollbar {
