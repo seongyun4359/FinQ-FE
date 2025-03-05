@@ -1,8 +1,8 @@
 import { useState } from "react";
-import ChatMessage from "./components/ChatMessage";
-import ChatInput from "./components/ChatInput";
-import Sidebar from "./components/Sidebar";
-import { Chat } from "./types";
+import ChatMessage from "../../components/ChatMessage";
+import ChatInput from "../../components/ChatInput";
+import Sidebar from "../../components/Sidebar";
+import { Chat } from "../../types";
 
 function App() {
   const [chats, setChats] = useState<Chat[]>([]);
@@ -11,7 +11,7 @@ function App() {
   const handleNewChat = () => {
     const newChat: Chat = {
       id: Date.now().toString(),
-      title: "New Chat",
+      title: "새로운 대화",
       messages: [],
     };
     setChats((prev) => [...prev, newChat]);
@@ -30,51 +30,50 @@ function App() {
         return chat;
       })
     );
+    // TODO: AI 응답 로직 추가
   };
 
   const currentChat = chats.find((chat) => chat.id === activeChat);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
+    <div className="flex">
       {/* 사이드바 */}
-      <div
-        className={`fixed top-0 left-0 h-full transition-transform duration-300 ease-in-out z-20`}
-      >
-        <Sidebar
-          chats={chats}
-          activeChat={activeChat}
-          onSelectChat={setActiveChat}
-          onNewChat={handleNewChat}
-        />
-      </div>
+      <Sidebar
+        chats={chats}
+        activeChat={activeChat}
+        onSelectChat={setActiveChat}
+        onNewChat={handleNewChat}
+      />
 
       {/* 메인 채팅 영역 */}
-      <main
-        className={`flex-1 flex flex-col min-h-screen bg-white transition-all duration-300 ease-in-out `}
-      >
-        {/* 채팅 영역 */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="container mx-auto max-w-5xl px-4 py-4">
+      <main className="flex-1 ml-64">
+        <div className="flex h-screen flex-col">
+          {/* 헤더 */}
+          <header className="bg-[#202123] p-4 fixed w-[calc(100%-16rem)] z-10">
+            <h1 className="text-2xl font-bold text-white text-center">FinQ</h1>
+          </header>
+
+          {/* 채팅 영역 */}
+          <div className="flex-1 overflow-y-auto pt-16 pb-32">
             {!currentChat || currentChat.messages.length === 0 ? (
-              <div className="h-[calc(100vh-8rem)] flex items-center justify-center">
-                <div className="text-center text-gray-500">
-                  <h2 className="text-2xl font-semibold mb-4">
-                    How can I help you today?
+              <div className="h-full flex items-center justify-center">
+                <div className="text-center text-gray-300">
+                  <h2 className="text-2xl font-bold mb-4">
+                    금융 지식이 궁금하신가요?
                   </h2>
+                  <p className="text-lg">FinQ에게 무엇이든 물어보세요!</p>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4 min-h-[calc(100vh-8rem)]">
+              <div className="space-y-4 px-4 py-8">
                 {currentChat.messages.map((message, index) => (
                   <ChatMessage key={index} message={message} />
                 ))}
               </div>
             )}
           </div>
-        </div>
 
-        {/* 입력 영역 */}
-        <div className="border-t border-gray-200 bg-white shrink-0">
+          {/* 입력 영역 */}
           <ChatInput onSendMessage={handleSendMessage} />
         </div>
       </main>
