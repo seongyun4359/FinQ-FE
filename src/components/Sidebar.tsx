@@ -8,6 +8,11 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <div className="bg-white w-64 h-screen flex flex-col border-r border-gray-200">
+      {/* 로고 */}
+      <div className="flex justify-center items-center p-4 border-b border-gray-200">
+        <img src="/FinQ.svg" alt="FinQ Logo" className="w-40 h-auto" />
+      </div>
+
       {/* 새 채팅 버튼 */}
       <button
         onClick={onNewChat}

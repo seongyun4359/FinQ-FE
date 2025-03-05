@@ -46,13 +46,8 @@ function App() {
       />
 
       {/* 메인 채팅 영역 */}
-      <main className="flex-1 ml-64">
+      <main className="flex-1 ml-64 w-full">
         <div className="flex h-screen flex-col">
-          {/* 헤더 */}
-          <header className="bg-[#202123] p-4 fixed w-[calc(100%-16rem)] z-10">
-            <h1 className="text-2xl font-bold text-white text-center">FinQ</h1>
-          </header>
-
           {/* 채팅 영역 */}
           <div className="flex-1 overflow-y-auto pt-16 pb-32">
             {!currentChat || currentChat.messages.length === 0 ? (
