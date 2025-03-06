@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ChatMessage from "../../components/ChatMessage";
 import ChatInput from "../../components/ChatInput";
 import Sidebar from "../../components/layout/Sidebar";
@@ -7,6 +7,15 @@ import { Chat } from "../../types";
 function App() {
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // 채팅이 업데이트될 때마다 스크롤 최하단으로 이동
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [chats]);
 
   const handleNewChat = () => {
     const newChat: Chat = {
@@ -18,19 +27,53 @@ function App() {
     setActiveChat(newChat.id);
   };
 
-  const handleSendMessage = (message: string) => {
+  const handleSendMessage = (message: string, file?: File | null) => {
     setChats((prev) =>
       prev.map((chat) => {
         if (chat.id === activeChat) {
+          const newMessage = {
+            role: "user" as const,
+            content: message,
+            file: file
+              ? {
+                  name: file.name,
+                  size: file.size,
+                  type: file.type,
+                  url: URL.createObjectURL(file),
+                }
+              : undefined,
+          };
           return {
             ...chat,
-            messages: [...chat.messages, { role: "user", content: message }],
+            messages: [...chat.messages, newMessage],
           };
         }
         return chat;
       })
     );
-    // TODO: AI 응답 로직 추가
+
+    // 메시지 전송 후 스크롤을 최하단으로 이동 (부드러운 스크롤)
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTo({
+          top: chatContainerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+  };
+
+  const handleUpdateChatTitle = (chatId: string, newTitle: string) => {
+    setChats((prev) =>
+      prev.map((chat) =>
+        chat.id === chatId
+          ? {
+              ...chat,
+              title: newTitle,
+            }
+          : chat
+      )
+    );
   };
 
   const currentChat = chats.find((chat) => chat.id === activeChat);
@@ -43,13 +86,17 @@ function App() {
         activeChat={activeChat}
         onSelectChat={setActiveChat}
         onNewChat={handleNewChat}
+        onUpdateChatTitle={handleUpdateChatTitle}
       />
 
       {/* 메인 채팅 영역 */}
       <main className="flex-1 ml-64 w-full">
         <div className="flex h-screen flex-col">
           {/* 채팅 영역 */}
-          <div className="flex-1 overflow-y-auto pt-16 pb-32">
+          <div
+            ref={chatContainerRef}
+            className="flex-1 overflow-y-auto pt-16 pb-32 scroll-smooth"
+          >
             {!currentChat || currentChat.messages.length === 0 ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center text-gray-300">

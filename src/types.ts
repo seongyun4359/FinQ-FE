@@ -1,6 +1,14 @@
+export interface FileInfo {
+  name: string;
+  size: number;
+  type: string;
+  url?: string;
+}
+
 export interface Message {
   role: "user" | "assistant";
   content: string;
+  file?: FileInfo;
 }
 
 export interface ChatMessageProps {
@@ -8,7 +16,7 @@ export interface ChatMessageProps {
 }
 
 export interface ChatInputProps {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, file?: File | null) => void;
 }
 
 export interface Chat {
@@ -22,4 +30,5 @@ export interface SidebarProps {
   activeChat: string | null;
   onSelectChat: (chatId: string) => void;
   onNewChat: () => void;
+  onUpdateChatTitle: (chatId: string, newTitle: string) => void;
 }
